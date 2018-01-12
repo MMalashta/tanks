@@ -1,0 +1,22 @@
+{
+  "name": "tanks",
+  "version": "1.0.0",
+  "description": "simple game",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline --hot"
+  },
+  "author": "Mashlan",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "script-loader": "^0.7.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  },
+  "dependencies": {
+    "phaser": "^2.6.2"
+  }
+}
