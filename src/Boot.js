@@ -5,6 +5,6 @@ export default class Boot {
   }
 
   create() {
-    this.state.start('Level1')
+    this.state.start('Preloader');
   }
 }
