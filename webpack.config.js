@@ -25,6 +25,13 @@ module.exports = {
       {
         test: /(phaser-split|pixi|p2).js$/,
         use: 'script-loader'
+      },
+      {
+        test: /phaser-arcade-slopes\.js$/,
+        use: [{
+          loader: 'expose-loader',
+          options: 'SAT'
+        }]
       }
     ]
   },

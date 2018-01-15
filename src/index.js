@@ -5,7 +5,7 @@ import Boot from './Boot';
 import Level1 from './Level1';
 import Preloader from './Preloader'
 
-const game = new Phaser.Game(512, 480, Phaser.AUTO, '');
+const game = new Phaser.Game(480, 480, Phaser.AUTO, '');
 
 game.state.add('Boot', Boot);
 game.state.add('Preloader', Preloader);
