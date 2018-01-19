@@ -5,11 +5,18 @@ import Boot from './Boot';
 import Level1 from './Level1';
 import Preloader from './Preloader'
 
-const game = new Phaser.Game(480, 480, Phaser.AUTO, '');
+class Game extends Phaser.Game {
+  constructor() {
+    super(480, 480, Phaser.AUTO);
 
-game.state.add('Boot', Boot);
-game.state.add('Preloader', Preloader);
-//game.state.add('MainMenu', Game.MainMenu);
-game.state.add('Level1', Level1);
+		this.state.add('Boot', Boot);
+		this.state.add('Preloader', Preloader);
+		//this.state.add('MainMenu', Game.MainMenu);
+		this.state.add('Level1', Level1);
 
-game.state.start('Boot');
+		this.state.start('Boot');
+	}
+
+}
+
+new Game();

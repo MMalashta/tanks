@@ -1,23 +1,16 @@
-import ArcadeSlopes from 'phaser-arcade-slopes'
-let controls;
+import Player from './entities/Player';
 let layer;
 let map;
-let player;
-const playerVelocity = 40;
 
-export default class Level1 {
+export default class Level1 extends Phaser.State {
   create() {
-    this.stage.backgroundColor = '000000';
-    this.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.plugins.add(Phaser.Plugin.ArcadeSlopes)
-
     map = this.add.tilemap('level1', 32, 32);
     map.addTilesetImage('tileset');
 
     layer = map.createLayer(0);
     //layer.debug = true;
 
-    this.game.slopes.convertTilemapLayer(layer,{
+    this.game.slopes.convertTilemapLayer(layer, {
       16: 'FULL',
       17: 'HALF_RIGHT',
       18: 'HALF_BOTTOM',
@@ -27,40 +20,13 @@ export default class Level1 {
     });
     map.setCollisionBetween(0, 100, true, 0);
 
-    controls = this.input.keyboard.createCursorKeys();
-
-    player = this.add.sprite(135, 448, 'tanks');
-    this.physics.enable(player);
-    this.game.slopes.enable(player);
-    player.body.collideWorldBounds = true;
-    player.animations.add('left', [2,3], 10, true);
-    player.animations.add('right', [6,7], 10, true);
-    player.animations.add('up', [0,1], 10, true);
-    player.animations.add('down', [4,5], 10, true);
+    this.player = new Player(this.game);
+		this.player.init();
   }
 
   update() {
-
-    this.physics.arcade.collide(player, layer);
-    player.body.velocity = {
-      x: 0,
-      y: 0,
-    }
-    if (controls.left.isDown) {
-      player.animations.play('left');
-      player.body.velocity.x -= playerVelocity;
-    } else if (controls.right.isDown) {
-      player.animations.play('right');
-      player.body.velocity.x += playerVelocity;
-    } else if (controls.up.isDown) {
-      player.animations.play('up');
-      player.body.velocity.y -= playerVelocity;
-    } else if (controls.down.isDown) {
-      player.animations.play('down');
-      player.body.velocity.y += playerVelocity;
-    } else {
-      player.animations.stop();
-    }
+    this.physics.arcade.collide(this.player.sprite, layer);
+    this.player.update();
   }
 
   render() {
