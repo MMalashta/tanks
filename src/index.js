@@ -1,9 +1,9 @@
 import 'pixi';
 import 'p2';
 import 'phaser';
-import Boot from './Boot';
-import Level1 from './Level1';
-import Preloader from './Preloader'
+import Boot from './states/Boot';
+import Level1 from './states/Level1';
+import Preloader from './states/Preloader'
 
 class Game extends Phaser.Game {
   constructor() {

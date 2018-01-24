@@ -1,4 +1,4 @@
-import Player from './entities/Player';
+import Player from '../entities/Player';
 let layer;
 let map;
 
