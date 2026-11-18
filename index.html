@@ -1,15 +1,25 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+  <head>
     <meta charset="UTF-8" />
-    <title>Phaser - Tanks</title>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tanks</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #111;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
-</head>
-<body>
-    <script type="text/javascript" src="/build/bundle.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="game"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

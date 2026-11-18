@@ -1,45 +1,33 @@
-export default class Player {
-  constructor(game) {
-    this.game = game;
-    this.controls = this.game.input.keyboard.createCursorKeys();
-    this.sprite = this.game.add.sprite(135, 448, 'tanks');
-    this.velocity = 40;
-  }
+import * as Phaser from 'phaser';
 
-  init() {
-    const { game, sprite, velocity } = this;
+const SPEED = 100;
 
-    game.physics.enable(sprite);
-    game.slopes.enable(sprite);
-    sprite.body.collideWorldBounds = true;
-    sprite.animations.add('left', [2,3], 10, true);
-    sprite.animations.add('right', [6,7], 10, true);
-    sprite.animations.add('up', [0,1], 10, true);
-    sprite.animations.add('down', [4,5], 10, true);
+// Sprite angle for each facing (the texture is drawn facing up).
+const ANGLE = { up: 0, right: 90, down: 180, left: -90 };
+
+export default class Player extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'tank');
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+
+    this.setCollideWorldBounds(true);
+    this.cursors = scene.input.keyboard.createCursorKeys();
   }
 
   update() {
-    const { controls, sprite, velocity } = this;
+    const { left, right, up, down } = this.cursors;
+    this.setVelocity(0);
 
-    sprite.body.velocity = {
-      x: 0,
-      y: 0,
-    }
+    // One direction at a time: tanks don't move diagonally.
+    if (left.isDown) this.move('left', -SPEED, 0);
+    else if (right.isDown) this.move('right', SPEED, 0);
+    else if (up.isDown) this.move('up', 0, -SPEED);
+    else if (down.isDown) this.move('down', 0, SPEED);
+  }
 
-    if (controls.left.isDown) {
-      sprite.animations.play('left');
-      sprite.body.velocity.x -= velocity;
-    } else if (controls.right.isDown) {
-      sprite.animations.play('right');
-      sprite.body.velocity.x += velocity;
-    } else if (controls.up.isDown) {
-      sprite.animations.play('up');
-      sprite.body.velocity.y -= velocity;
-    } else if (controls.down.isDown) {
-      sprite.animations.play('down');
-      sprite.body.velocity.y += velocity;
-    } else {
-      sprite.animations.stop();
-    }
+  move(direction, vx, vy) {
+    this.setAngle(ANGLE[direction]);
+    this.setVelocity(vx, vy);
   }
 }
