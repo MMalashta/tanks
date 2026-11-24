@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
-import { WORLD_SIZE } from './config.js';
-import BootScene from './scenes/BootScene.js';
-import GameScene from './scenes/GameScene.js';
+import { WORLD_SIZE } from './config';
+import BootScene from './scenes/BootScene';
+import GameScene from './scenes/GameScene';
 
 new Phaser.Game({
   type: Phaser.AUTO,

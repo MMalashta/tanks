@@ -1,3 +1,5 @@
+import { TILE, type GridPosition, type Level, type TileType } from '../types';
+
 // Temporary test layout (15x15 tiles of 32px). Replaced by real levels in a later step.
 // . = empty, 1 = brick, 2 = steel, P = player spawn (exactly one)
 const rows = [
@@ -18,28 +20,33 @@ const rows = [
   '.......P.......',
 ];
 
-export const TILE = { EMPTY: 0, BRICK: 1, STEEL: 2 };
+const TILE_CODES: Record<string, TileType> = {
+  '.': TILE.EMPTY,
+  '1': TILE.BRICK,
+  '2': TILE.STEEL,
+  'P': TILE.EMPTY,
+};
 
-const TILE_CODES = { '.': TILE.EMPTY, '1': TILE.BRICK, '2': TILE.STEEL, 'P': TILE.EMPTY };
-
-function parseTiles(layout) {
+function parseTiles(layout: string[]): TileType[][] {
   return layout.map((row, y) => [...row].map((ch, x) => {
-    if (!(ch in TILE_CODES)) {
+    const tile = TILE_CODES[ch];
+    if (tile === undefined) {
       throw new Error(`Level: unknown tile '${ch}' at row ${y}, col ${x}`);
     }
-    return TILE_CODES[ch];
+    return tile;
   }));
 }
 
-function findSpawn(layout) {
+function findSpawn(layout: string[]): GridPosition {
   const spawns = layout.flatMap((row, y) => [...row].flatMap((ch, x) => (ch === 'P' ? [{ col: x, row: y }] : [])));
-  if (spawns.length !== 1) {
+  const [spawn] = spawns;
+  if (spawns.length !== 1 || !spawn) {
     throw new Error(`Level: expected exactly one player spawn 'P', found ${spawns.length}`);
   }
-  return spawns[0];
+  return spawn;
 }
 
-export const level = {
+export const level: Level = {
   tiles: parseTiles(rows),
   playerSpawn: findSpawn(rows),
 };
