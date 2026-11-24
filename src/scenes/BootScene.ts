@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { TILE_SIZE } from '../config.js';
+import { TILE_SIZE } from '../config';
 
 // Generates placeholder textures in code. Real (CC0) art replaces these in a later step.
 export default class BootScene extends Phaser.Scene {
@@ -7,7 +7,7 @@ export default class BootScene extends Phaser.Scene {
     super('Boot');
   }
 
-  create() {
+  create(): void {
     this.makeTank();
     this.makeBrick();
     this.makeSteel();
@@ -15,7 +15,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   // Drawn facing up; the sprite is rotated to face other directions.
-  makeTank() {
+  private makeTank(): void {
     const g = this.make.graphics({}, false);
     const s = 28;
     g.fillStyle(0x3a5f2a).fillRect(0, 2, 7, s - 4); // left track
@@ -27,7 +27,7 @@ export default class BootScene extends Phaser.Scene {
     g.destroy();
   }
 
-  makeBrick() {
+  private makeBrick(): void {
     const g = this.make.graphics({}, false);
     const t = TILE_SIZE;
     g.fillStyle(0x7a3b1e).fillRect(0, 0, t, t);
@@ -46,7 +46,7 @@ export default class BootScene extends Phaser.Scene {
     g.destroy();
   }
 
-  makeSteel() {
+  private makeSteel(): void {
     const g = this.make.graphics({}, false);
     const t = TILE_SIZE;
     g.fillStyle(0x6b6f78).fillRect(0, 0, t, t);

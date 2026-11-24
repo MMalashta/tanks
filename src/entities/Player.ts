@@ -1,21 +1,28 @@
 import * as Phaser from 'phaser';
+import type { Direction } from '../types';
 
 const SPEED = 100;
 
 // Sprite angle for each facing (the texture is drawn facing up).
-const ANGLE = { up: 0, right: 90, down: 180, left: -90 };
+const ANGLE: Record<Direction, number> = { up: 0, right: 90, down: 180, left: -90 };
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
+  private readonly cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+
+  constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'tank');
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
     this.setCollideWorldBounds(true);
-    this.cursors = scene.input.keyboard.createCursorKeys();
+
+    // Typed as nullable because the keyboard plugin can be disabled in the game config.
+    const { keyboard } = scene.input;
+    if (!keyboard) throw new Error('Player: keyboard input is disabled');
+    this.cursors = keyboard.createCursorKeys();
   }
 
-  update() {
+  update(): void {
     const { left, right, up, down } = this.cursors;
     this.setVelocity(0);
 
@@ -26,7 +33,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     else if (down.isDown) this.move('down', 0, SPEED);
   }
 
-  move(direction, vx, vy) {
+  private move(direction: Direction, vx: number, vy: number): void {
     this.setAngle(ANGLE[direction]);
     this.setVelocity(vx, vy);
   }
